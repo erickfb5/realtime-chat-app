@@ -5,7 +5,7 @@ const passport = require("passport");
 
 const myDB = require("./connection");
 const routes = require("./routes.js")
-const auth = require("./auth.js");
+const auth = require("./auth/auth.js");
 const { sessionMiddleware, authorizeSocket, errorHandler } = require("./middlewares");
 
 const app = express();
