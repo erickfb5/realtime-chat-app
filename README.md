@@ -1,4 +1,4 @@
-# **[Realtime Chat App](https://realtime-chat-app-55s5.onrender.com)**
+# **[Real-time Chat App](https://realtime-chat-app-55s5.onrender.com)**
 
  A real-time chat application built using [Express.js](https://expressjs.com), Socket.io, and [Passport.js](https://www.passportjs.org/) for user authentication. This application allows users to chat in real-time with others, provides user authentication through Passport.js, and stores chat data in a [MongoDB](https://www.mongodb.com/) database. It's a fully-featured chat platform with user-friendly features.
 
