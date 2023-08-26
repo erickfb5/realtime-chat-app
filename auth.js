@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const { ObjectId } = require("mongodb");
 const GitHubStrategy = require("passport-github").Strategy;
 
-module.exports = (app, myDataBase) => {
+module.exports = (myDataBase) => {
   // Passport serialization and deserialization
   passport.serializeUser((user, done) => done(null, user._id));
 

@@ -4,7 +4,7 @@ const express = require("express");
 const passport = require("passport");
 
 const myDB = require("./connection");
-const routes = require("./routes.js");
+const routes = require("./routes.js")
 const auth = require("./auth.js");
 const { sessionMiddleware, authorizeSocket, errorHandler } = require("./middlewares");
 
@@ -19,8 +19,6 @@ app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
 app.use("/public", express.static(process.cwd() + "/public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -30,8 +28,11 @@ io.use(authorizeSocket());
 myDB(async (client) => {
   const myDataBase = await client.db("database").collection("users");
   console.log("Connected to the database");
-  routes(app, myDataBase);
-  auth(app, myDataBase);
+ 
+  // Mount the routes from routes.js
+  app.use("/", routes(myDataBase));
+
+  auth(myDataBase);
   
   let currentUsers = 0;
   io.on("connection", (socket) => {
@@ -45,8 +46,8 @@ myDB(async (client) => {
       io.emit("user", { username: socket.request.user.username, currentUsers, connected: false });
     });
   });
-}).catch((e) => {
-  app.route("/").get((req, res) => res.render("index", { title: e, message: "Unable to connect to database" }));
+}).catch((err) => {
+  app.route("/").get((req, res) => res.render("index", { title: err, message: "Unable to connect to database" }));
 });
 
 app.use(errorHandler);
