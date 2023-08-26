@@ -6,7 +6,7 @@ const passport = require("passport");
 const myDB = require("./connection");
 const routes = require("./routes.js");
 const auth = require("./auth.js");
-const { sessionMiddleware, authorizeSocket, errorhandler, notFound } = require("./middlewares");
+const { sessionMiddleware, authorizeSocket, errorHandler } = require("./middlewares");
 
 const app = express();
 const http = require("http").createServer(app);
@@ -19,6 +19,8 @@ app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+
 app.use("/public", express.static(process.cwd() + "/public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -30,7 +32,7 @@ myDB(async (client) => {
   console.log("Connected to the database");
   routes(app, myDataBase);
   auth(app, myDataBase);
-
+  
   let currentUsers = 0;
   io.on("connection", (socket) => {
     ++currentUsers;
@@ -47,9 +49,7 @@ myDB(async (client) => {
   app.route("/").get((req, res) => res.render("index", { title: e, message: "Unable to connect to database" }));
 });
 
-app.use(notFound);
-
-app.use(errorhandler);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 http.listen(PORT, () => console.log(`Listening on port ${PORT}`));

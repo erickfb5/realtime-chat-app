@@ -1,5 +1,5 @@
 const authController = require("./controllers/authController");
-const { ensureAuthenticated } = require("./middlewares");
+const { ensureAuthenticated, notFound } = require("./middlewares");
 
 module.exports = (app, myDataBase) => {
   app.route("/").get(authController.renderIndexPage);
@@ -18,5 +18,6 @@ module.exports = (app, myDataBase) => {
   app.route("/profile").get(ensureAuthenticated, authController.renderProfilePage);
   app.route("/chat").get(ensureAuthenticated, authController.renderChatPage);
 
-  app.use((req, res, next) => res.status(404).type("text").send("Not Found"));
+  app.use(notFound);
+
 };
