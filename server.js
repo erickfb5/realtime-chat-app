@@ -1,12 +1,12 @@
 "use strict";
 require("dotenv").config();
 const express = require("express");
+const passport = require("passport");
 
 const myDB = require("./connection");
 const routes = require("./routes.js");
 const auth = require("./auth.js");
-const { sessionMiddleware, authorizeSocket } = require("./middlewares");
-const passport = require("passport");
+const { sessionMiddleware, authorizeSocket, errorhandler } = require("./middlewares");
 
 const app = express();
 const http = require("http").createServer(app);
@@ -46,6 +46,8 @@ myDB(async (client) => {
 }).catch((e) => {
   app.route("/").get((req, res) => res.render("index", { title: e, message: "Unable to connect to database" }));
 });
+
+app.use(errorhandler);
 
 const PORT = process.env.PORT || 3000;
 http.listen(PORT, () => console.log(`Listening on port ${PORT}`));

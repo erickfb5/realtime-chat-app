@@ -11,7 +11,8 @@ const renderIndexPage = (req, res) => {
   });
 };
 
-const renderProfilePage = (req, res) => res.render("profile", { username: req.user.username });
+const renderProfilePage = (req, res) =>
+  res.render("profile", { username: req.user.username });
 const renderChatPage = (req, res) => res.render("chat", { user: req.user });
 
 const redirectToProfile = (req, res) => res.redirect("/profile");

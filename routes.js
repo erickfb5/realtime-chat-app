@@ -1,5 +1,5 @@
 const authController = require("./controllers/authController");
-const { ensureAuthenticated } = require("./middlewares/ensureAuthenticated");
+const { ensureAuthenticated } = require("./middlewares");
 
 module.exports = (app, myDataBase) => {
   app.route("/").get(authController.renderIndexPage);
